@@ -37,7 +37,7 @@ model HydroCordModelFrancis "Model of HP system with simplified models for penst
         origin={-4,66},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  inner OpenHPL.Parameters para(V_0=0.00618496) annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data(V_0=0.00618496) annotation (Placement(visible=true, transformation(
         origin={-90,92},
         extent={{-10,-10},{10,10}},
         rotation=0)));
@@ -83,7 +83,7 @@ model HydroCordModelFrancis "Model of HP system with simplified models for penst
     H_n=371,
     P_n=130,
     R_Y_=3.2,
-    V_dot_n=37,
+    Vdot_n=37,
     k_ft1_=2e5,
     k_ft2_=1e2,
     k_ft3_=8e3,

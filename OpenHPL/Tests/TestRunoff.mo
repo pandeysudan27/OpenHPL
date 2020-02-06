@@ -34,12 +34,12 @@ model TestRunoff
         origin={40,12},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  inner OpenHPL.Parameters para annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data annotation (Placement(visible=true, transformation(
         origin={-90,92},
         extent={{-10,-10},{10,10}},
         rotation=0)));
 equation
-  connect(reservoir1.V_in, runOff.V_dot_runoff) annotation (
+  connect(reservoir1.V_in, runOff.Vdot_runoff) annotation (
     Line(points = {{-68, 40}, {-76, 40}, {-76, 50}, {-82, 50}}, color = {0, 0, 127}));
   connect(control.y, turbine.u_t) annotation (
     Line(points={{35,62},{40,62},{40,24}},          color = {0, 0, 127}));

@@ -7,20 +7,20 @@ model HPSimpleElasticPenstockWithoutSurge "Model of HP system without surge tank
         rotation=0)));
   Modelica.Blocks.Sources.Ramp control(duration = 1, height = -0.03, offset = 0.5, startTime = 500) annotation (
     Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = 0, origin = {10, 84})));
-  inner OpenHPL.Parameters para annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data annotation (Placement(visible=true, transformation(
         origin={-90,92},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  Waterway.Pipe intake(V_dot0=20.6) annotation (Placement(visible=true, transformation(extent={{-58,52},{-38,72}}, rotation=0)));
+  Waterway.Pipe intake(Vdot_0=20.6) annotation (Placement(visible=true, transformation(extent={{-58,52},{-38,72}}, rotation=0)));
   Waterway.Pipe discharge(
     H=5,
     L=600,
-    V_dot0=20.6) annotation (Placement(visible=true, transformation(extent={{48,26},{68,46}}, rotation=0)));
+    Vdot_0=20.6) annotation (Placement(visible=true, transformation(extent={{48,26},{68,46}}, rotation=0)));
   Waterway.Reservoir tail(H_r=10) annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
         origin={92,42})));
-  Waterway.Penstock penstock1(N=10, V_dot0=20.6) annotation (Placement(visible=true, transformation(
+  Waterway.Penstock penstock1(N=10, Vdot_0=20.6) annotation (Placement(visible=true, transformation(
         origin={-6,48},
         extent={{-10,-10},{10,10}},
         rotation=0)));

@@ -37,7 +37,7 @@ model HPSimplePenstockFrancis "HP system model with Francis turbine"
     R_2_=1.55/2,
     R_v_=2.89/2,
     Reduction=0.1,
-    V_dot_n=24.3,
+    Vdot_n=24.3,
     beta1_=110,
     beta2_=162.5,
     dp_v_condition=false,
@@ -53,7 +53,7 @@ model HPSimplePenstockFrancis "HP system model with Francis turbine"
         origin={28,38},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  inner OpenHPL.Parameters para annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data annotation (Placement(visible=true, transformation(
         origin={-90,92},
         extent={{-10,-10},{10,10}},
         rotation=0)));

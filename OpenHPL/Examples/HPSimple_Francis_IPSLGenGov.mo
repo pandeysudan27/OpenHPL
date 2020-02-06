@@ -36,7 +36,7 @@ model HPSimple_Francis_IPSLGenGov "Synergy with OpenIPSL library(generator + gov
     R_2_=1.55/2,
     R_v_=2.89/2,
     Reduction=0.1,
-    V_dot_n=24.3,
+    Vdot_n=24.3,
     beta1_=110,
     beta2_=162.5,
     dp_v_condition=false,
@@ -54,8 +54,8 @@ model HPSimple_Francis_IPSLGenGov "Synergy with OpenIPSL library(generator + gov
         origin={30,40},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  inner OpenHPL.Parameters para(V_0=4.49671) annotation (Placement(visible=true, transformation(
-        origin={-90,92},
+  inner OpenHPL.Data data(V_0=4.49671) annotation (Placement(visible=true, transformation(
+        origin={-90,90},
         extent={{-10,-10},{10,10}},
         rotation=0)));
   OpenIPSL.Electrical.Machines.PSAT.Order2 order2_1(D = 0, M = 10,

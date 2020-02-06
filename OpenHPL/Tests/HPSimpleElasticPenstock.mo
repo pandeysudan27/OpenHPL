@@ -7,19 +7,19 @@ model HPSimpleElasticPenstock "Model of HP system with elastic penctock (Stagard
         rotation=0)));
   Modelica.Blocks.Sources.Ramp control(duration = 1, height = -0.04615, offset = 0.7493, startTime = 600) annotation (
     Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = 0, origin = {10, 84})));
-  inner OpenHPL.Parameters para annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data annotation (Placement(visible=true, transformation(
         origin={-90,92},
         extent={{-10,-10},{10,10}},
         rotation=0)));
   Waterway.Pipe intake(
     H=23,
     SteadyState=false,
-    V_dot0=19.06) annotation (Placement(visible=true, transformation(extent={{-66,52},{-46,72}}, rotation=0)));
+    Vdot_0=19.06) annotation (Placement(visible=true, transformation(extent={{-66,52},{-46,72}}, rotation=0)));
   Waterway.Pipe discharge(
     H=0.5,
     L=600,
     SteadyState=false,
-    V_dot0=19.06) annotation (Placement(visible=true, transformation(extent={{54,26},{74,46}}, rotation=0)));
+    Vdot_0=19.06) annotation (Placement(visible=true, transformation(extent={{54,26},{74,46}}, rotation=0)));
   Waterway.Reservoir tail(H_r=10) annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -33,7 +33,7 @@ model HPSimpleElasticPenstock "Model of HP system with elastic penctock (Stagard
     D_o=3,
     H=428.5,
     N=10,
-    V_dot0=19.06) annotation (Placement(visible=true, transformation(
+    Vdot_0=19.06) annotation (Placement(visible=true, transformation(
         origin={0,54},
         extent={{-10,-10},{10,10}},
         rotation=0)));

@@ -11,7 +11,7 @@ model HPSimplePenstockPelton "HP system model with Pelton turbine"
   Waterway.Pipe discharge(
     H=0.5,
     L=600,
-    V_dot0=0) annotation (Placement(visible=true, transformation(extent={{30,24},{50,44}}, rotation=0)));
+    Vdot_0=0) annotation (Placement(visible=true, transformation(extent={{30,24},{50,44}}, rotation=0)));
   Waterway.Reservoir tail(H_r=5) annotation (Placement(visible=true, transformation(
         origin={94,40},
         extent={{-10,10},{10,-10}},
@@ -28,7 +28,7 @@ model HPSimplePenstockPelton "HP system model with Pelton turbine"
         origin={-30,66},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  inner OpenHPL.Parameters para annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data annotation (Placement(visible=true, transformation(
         origin={-90,92},
         extent={{-10,-10},{10,10}},
         rotation=0)));

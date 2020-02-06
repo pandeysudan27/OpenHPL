@@ -1,7 +1,7 @@
 within OpenHPL.ElectroMech.Generators;
 model SynchGen "Simple model of the generator connected to the grid"
   extends OpenHPL.Icons.Generator;
-  outer Parameters para "Using standard class with constants";
+  outer Data data "Using standard class with constants";
   import Modelica.Constants.pi;
   //// parameters of the generator
   parameter Modelica.SIunits.Power P_op = 80e6 "Active power drawn from generator at Steady State operating condition" annotation (
@@ -29,7 +29,7 @@ model SynchGen "Simple model of the generator connected to the grid"
     Dialog(group = "Stablizer"));
   parameter Integer np = 12 "Number of poles" annotation (
     Dialog(group = "Nominal parameters"));
-  parameter Modelica.SIunits.AngularVelocity Wm_op = para.f * pi / 3 "Grid angular velocity" annotation (
+  parameter Modelica.SIunits.AngularVelocity Wm_op = data.f_0 * pi / 3 "Grid angular velocity" annotation (
     Dialog(group = "Network"));
   parameter Modelica.SIunits.MomentOfInertia J = 2e5 "Moment of inertia of the generator" annotation (
     Dialog(group = "Mechanical part"));
@@ -56,13 +56,13 @@ model SynchGen "Simple model of the generator connected to the grid"
   Modelica.SIunits.AngularVelocity w_op = 500 * pi / 30, w;
   Modelica.SIunits.Resistance Temp[2, 2];
   Modelica.SIunits.Power Pe, Qe;
-  Modelica.SIunits.EnergyFlowRate W_ts_dot, W_fa;
+  Modelica.SIunits.EnergyFlowRate Wdot_ts = P_in, W_fa;
   //// conectors
   Modelica.Blocks.Interfaces.RealOutput f = np / 120 * 30 * w / pi if UseFrequencyOutput "Output generator frequency" annotation (
     Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealOutput w_out = w "Output of the generator's angular velocity" annotation (Placement(visible = true, transformation(origin={110,60}, extent={{-10,-10},
             {10,10}},                                                                                                                                                                    rotation=0)));
-  Modelica.Blocks.Interfaces.RealInput P_in = W_ts_dot "Input of mechanical power" annotation (
+  Modelica.Blocks.Interfaces.RealInput P_in  "Input of mechanical power" annotation (
     Placement(transformation(extent={{-20,-20},{20,20}},      rotation = 270, origin={0,120})));
 initial equation
   if SelfInitialization == false then
@@ -105,7 +105,7 @@ equation
   der(Vstabilizer) = ((-Vstabilizer) + KF * der(Ef)) / TFE;
   //// Mechanical equation
   W_fa = 0.5 * k_b * w ^ 2;
-  der(w) = (W_ts_dot - Pe) / (J * w);
+  der(w) = (Wdot_ts - Pe) / (J * w);
   // - W_fa;
   ////
   annotation (

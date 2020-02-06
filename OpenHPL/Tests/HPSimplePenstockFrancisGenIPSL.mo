@@ -34,7 +34,7 @@ model HPSimplePenstockFrancisGenIPSL "Synergy with OpenIPSL library(generator)"
     R_2_=1.55/2,
     R_v_=2.89/2,
     Reduction=0.1,
-    V_dot_n=24.3,
+    Vdot_n=24.3,
     beta1_=110,
     beta2_=162.5,
     dp_v_condition=false,
@@ -50,7 +50,7 @@ model HPSimplePenstockFrancisGenIPSL "Synergy with OpenIPSL library(generator)"
         origin={28,28},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  inner OpenHPL.Parameters para(V_0=4.49) annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data(V_0=4.49) annotation (Placement(visible=true, transformation(
         origin={-90,92},
         extent={{-10,-10},{10,10}},
         rotation=0)));

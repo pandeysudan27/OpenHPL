@@ -1,7 +1,7 @@
 within OpenHPL.Functions.KP07.KPfunctions;
 model FluxesH
   extends Icons.Method;
-  parameter Integer N "number of segments";
+  parameter Integer N(start=2) "number of segments";
   input Real U_[8, N], A_[N, 4], F_[2 * N, 4];
   output Real H[2 * N, 2];
 protected
@@ -18,8 +18,8 @@ equation
   H_m = (a_pm .* F_[:, 3] - a_mm .* F_[:, 4]) ./ (a_pm - a_mm) + a_pm .* a_mm ./ (a_pm - a_mm) .* vector([U_[7, :]; U_[8, :]] - [U_[5, :]; U_[6, :]]);
   H = [H_p, H_m];
   annotation (
-    Documentation(info = "<html>
+    Documentation(info="<html>
 <p>The model for defining the central upwind numerical fluxes at the cell interfaces. Following equations are used:</p>
-<p><img src=\"modelica://OpenHPL/Resources/Images/eq_flauxes.png\"/></p>
+<p><img src=\"modelica://OpenHPL/Resources/Images/equations/KP_fluxes.svg\"/></p>
 </html>"));
 end FluxesH;

@@ -29,7 +29,7 @@ model HydroCordModelKPFran "Model of HP system with simplified models for pensto
         origin={-4,66},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  inner OpenHPL.Parameters para(V_0=0.00618434) annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data(V_0=0.00618434) annotation (Placement(visible=true, transformation(
         origin={-90,90},
         extent={{-10,-10},{10,10}},
         rotation=0)));
@@ -105,7 +105,7 @@ model HydroCordModelKPFran "Model of HP system with simplified models for pensto
     H_n=371,
     P_n=130,
     R_Y_=3.2,
-    V_dot_n=37,
+    Vdot_n=37,
     WaterCompress=true,
     k_ft1_=2e5,
     k_ft2_=1e2,

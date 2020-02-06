@@ -5,17 +5,17 @@ model HPSimplePenstockAutoRefGate
         origin={-92,62},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  inner OpenHPL.Parameters para annotation (Placement(visible=true, transformation(
+  inner OpenHPL.Data data annotation (Placement(visible=true, transformation(
         origin={-90,92},
         extent={{-10,-10},{10,10}},
         rotation=0)));
   Modelica.Blocks.Sources.Ramp load(duration = 1, height = -3e6, offset = 80e6, startTime = 1200) annotation (
     Placement(visible = true, transformation(extent = {{-12, -4}, {8, 16}}, rotation = 0)));
-  Waterway.Pipe intake(V_dot0=19) annotation (Placement(visible=true, transformation(extent={{-64,52},{-44,72}}, rotation=0)));
+  Waterway.Pipe intake(Vdot_0=19) annotation (Placement(visible=true, transformation(extent={{-64,52},{-44,72}}, rotation=0)));
   Waterway.Pipe discharge(
     H=5,
     L=600,
-    V_dot0=19) annotation (Placement(visible=true, transformation(extent={{48,26},{68,46}}, rotation=0)));
+    Vdot_0=19) annotation (Placement(visible=true, transformation(extent={{48,26},{68,46}}, rotation=0)));
   Waterway.Reservoir tail(H_r=10) annotation (Placement(visible=true, transformation(
         origin={90,42},
         extent={{-10,10},{10,-10}},
@@ -26,7 +26,7 @@ model HPSimplePenstockAutoRefGate
     L=600,
     D_i=3.3,
     D_o=3.3,
-    V_dot0=19) annotation (Placement(visible=true, transformation(
+    Vdot_0=19) annotation (Placement(visible=true, transformation(
         origin={-2,46},
         extent={{-10,-10},{10,10}},
         rotation=-90)));

@@ -1,4 +1,9 @@
-Fittings
+HydroCordModelTest
+TorpaHPPAirCushionTest
+TorpaHPPAirCushionTest2
+HPTaperedFittingsTest
+HPSquareFittingsTest
+HPAllTypeFittingsTest
 HPSimplePenstock
 HPSimplePenstockWithoutSurge
 HPSimpleElasticPenstock
@@ -61,3 +66,8 @@ HydroCordModelKPDraftTube
 HydroCordModelFrancisDraftTube
 HydroCordModeKPlFrancisDraftTube
 HydroCordModelDraftTube3
+HPSTSimple
+HPSTAirCushion
+HPSTSharpOrifice
+HPSTThrottleValve
+HPDraftTube
