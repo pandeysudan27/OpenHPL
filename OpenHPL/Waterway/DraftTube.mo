@@ -63,7 +63,7 @@ model DraftTube "Model of a draft tube for reaction turbines"
   Modelica.SIunits.Pressure p_i "Inlet pressure";
   Modelica.SIunits.Pressure p_o "Outlet pressure";
   //Modelica.SIunits.Pressure dp = p_o-p_i "Pressure drop in and out of draft tube";
-  Modelica.SIunits.VolumeFlowRate Vdot(start = Vdot_0, fixed = true) "Volumeteric flow rate";
+  Modelica.SIunits.VolumeFlowRate Vdot(start = Vdot_0) "Volumeteric flow rate";
 
   Real cos_theta = Modelica.Math.cos(Modelica.SIunits.Conversions.from_deg(theta))
                                                                                   "Calculating cos_theta";

@@ -32,12 +32,8 @@ model HPDraftTube "Testing the draft tube models."
         origin={-28,64},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  ElectroMech.Turbines.Turbine turbine(C_v=3.7, ConstEfficiency=false) annotation (Placement(visible=true, transformation(
-        origin={32,44},
-        extent={{-10,-10},{10,10}},
-        rotation=0)));
-  inner OpenHPL.Data data annotation (Placement(visible=true, transformation(
-        origin={-90,90},
+  OpenHPL.ElectroMech.Turbines.Turbine turbine(C_v=3.7, ConstEfficiency=false) annotation (Placement(visible=true, transformation(
+        origin={32, 42},
         extent={{-10,-10},{10,10}},
         rotation=0)));
   Waterway.Reservoir         reservoir1(H_r=48)
@@ -132,10 +128,10 @@ model HPDraftTube "Testing the draft tube models."
     L_b2=9,
     D=4)      annotation (Placement(transformation(extent={{54,-72},{74,-52}})));
 equation
-  connect(turbine.o, discharge.i) annotation (
-    Line(points={{42,44},{46,44},{46,54},{54,54}},          color = {28, 108, 200}));
-  connect(penstock.o, turbine.i) annotation (
-    Line(points={{12,64},{16.95,64},{16.95,44},{22,44}},                         color = {28, 108, 200}));
+  connect(turbine.o, discharge.i) annotation(
+    Line(points = {{42, 42}, {42, 54}, {54, 54}}, color = {28, 108, 200}));
+  connect(penstock.o, turbine.i) annotation(
+    Line(points = {{12, 64}, {16.95, 64}, {16.95, 42}, {22, 42}}, color = {28, 108, 200}));
   connect(reservoir.o, intake.i) annotation (
     Line(points={{-78,64},{-68,64}},                                              color = {28, 108, 200}));
   connect(intake.o, surgeTank.i) annotation (
@@ -144,8 +140,8 @@ equation
     Line(points={{-18,64},{-8,64}},                                               color = {28, 108, 200}));
   connect(discharge.o, tail.o) annotation (Line(points={{74,54},{80,54}},
                                                                         color={28,108,200}));
-  connect(turbine.u_t, control.y)
-    annotation (Line(points={{32,56},{32,67}}, color={0,0,127}));
+  connect(turbine.u_t, control.y) annotation(
+    Line(points = {{32, 54}, {32, 67}}, color = {0, 0, 127}));
   connect(penstock1.o, turbine1.i) annotation (Line(points={{12,6},{16.95,6},{
           16.95,-14},{22,-14}},  color={28,108,200}));
   connect(reservoir1.o, intake1.i)

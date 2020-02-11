@@ -18,7 +18,8 @@ model HydroCordModel "Model of HP system with simplified models for penstock, tu
     D_o=6.3,
     H=17.5 - 14,
     L=601,
-    p_eps=0.05) annotation (Placement(visible=true, transformation(extent={{44,-24},{64,-4}}, rotation=0)));
+    p_eps=0.05) annotation (Placement(visible=true, transformation(extent={{44,-28},
+            {64,-8}},                                                                         rotation=0)));
   OpenHPL.Waterway.Reservoir tail(
     Input_level=true,
     H_r=24.5 - 22.6,
@@ -109,9 +110,9 @@ model HydroCordModel "Model of HP system with simplified models for penstock, tu
         rotation=0)));
 equation
   connect(turbine.n, discharge1.p) annotation (
-    Line(points = {{42, -6}, {44, -6}, {44, -14}, {44, -14}}, color = {28, 108, 200}));
+    Line(points={{42,-6},{44,-6},{44,-14}},                   color = {28, 108, 200}));
   connect(discharge1.n, discharge2.p) annotation (
-    Line(points = {{64, -14}, {64, -14}, {64, -8}, {64, -8}}, color = {28, 108, 200}));
+    Line(points={{64,-14},{64,-8}},                           color = {28, 108, 200}));
   connect(limiter1.y, per_gain.u) annotation (
     Line(points={{-43,-42},{-40,-42},{-40,-44},{-34,-44}},          color = {0, 0, 127}));
   connect(add1.y, tail.Level_in) annotation (

@@ -12,7 +12,7 @@ algorithm
   if D_o <= D_i then
     /* Square Reduction */
     if N_Re < 2500 then
-      phi := (1.2 + 160/N_Re)*((D_i/D_o)^4 - 1);
+      phi := (1.2 + 160/(Modelica.Constants.eps))*((D_i/D_o)^4 - 1);
     else
       phi := (0.6 + 0.48*f_D)*(D_i/D_o)^2*((D_i/D_o)^2 - 1);
     end if;
