@@ -38,7 +38,8 @@ model TorpaHPPAirCushionTest "Test case for air cushion surge tank from Torpa hy
     p_eps=0.005,
     h_0=2,
     p_ac=4100000,
-    T_ac(displayUnit="K") = 287)                 annotation (Placement(visible=true, transformation(
+    T_ac(displayUnit="K") = 287,
+    gamma_gas(displayUnit="K"))                  annotation (Placement(visible=true, transformation(
         origin={-26,34},
         extent={{-10,-10},{10,10}},
         rotation=0)));

@@ -30,16 +30,20 @@ model SurgeTank "Model of the surge tank/shaft"
     Dialog(group = "Initialization"));
   parameter Modelica.SIunits.Height h_0 = 69.9 "Initial water height in the surge tank" annotation (
     Dialog(group = "Initialization"));
-  parameter Modelica.SIunits.Pressure p_ac = 4*data.p_a "Initial pressure of air-cushion inside the surge tank" annotation (
-    Dialog(group = "Initialization",enable=SurgeTankType == OpenHPL.Types.SurgeTank.STAirCushion));
-  parameter Modelica.SIunits.Temperature T_ac(displayUnit="degC") = 298.15 "Initial air-cushion temperature"
-    annotation (Dialog(group = "Initialization", enable=SurgeTankType == OpenHPL.Types.SurgeTank.STAirCushion));
+  parameter Modelica.SIunits.Pressure p_ac = 4*data.p_a "Initial pressure of gas-cushion inside the surge tank" annotation (
+    Dialog(group = "Initialization",enable=SurgeTankType == OpenHPL.Types.SurgeTank.STgasCushion));
+  parameter Modelica.SIunits.Temperature T_ac(displayUnit="degC") = 298.15 "Initial gas-cushion temperature"
+    annotation (Dialog(group = "Initialization", enable=SurgeTankType == OpenHPL.Types.SurgeTank.STgasCushion));
+  parameter Real gamma_gas = 1.4 "Ratio of heat capacities at constant pressure (C_p) to constant volume (C_v) for air at STP"
+    annotation (Dialog(group = "Initialization", enable=SurgeTankType == OpenHPL.Types.SurgeTank.STgasCushion));
+  parameter Modelica.SIunits.MolarMass M_m = 28.97e-3 "Molar mass of gas at STP"
+    annotation (Dialog(group = "Initialization", enable=SurgeTankType == OpenHPL.Types.SurgeTank.STgasCushion));
   //possible parameters for temperature variation. Not finished...
   //parameter Boolean TempUse = data.TempUse "If checked - the water temperature is not constant" annotation (Dialog(group = "Initialization"));
   //parameter Modelica.SIunits.Temperature T_i = data.T_i "Initial water temperature in the pipe" annotation (Dialog(group = "Initialization", enable = TempUse));
   //// variables
   Modelica.SIunits.Mass m "Water mass";
-  Modelica.SIunits.Mass m_a = p_ac*A*(L-h_0/cos_theta)*data.M_a/(Modelica.Constants.R*T_ac) "Air mass inside surge tank";
+  Modelica.SIunits.Mass m_a = p_ac*A*(L-h_0/cos_theta)*M_m/(Modelica.Constants.R*T_ac) "gas mass inside surge tank";
   Modelica.SIunits.Momentum M "Water momuntum";
   Modelica.SIunits.Force Mdot "Difference in influent and effulent momentum";
   Modelica.SIunits.Force F "Total force acting in the surge tank";
@@ -78,10 +82,10 @@ equation
     p_t = data.p_a;
     F_f = Functions.DarcyFriction.Friction(v, D, l, data.rho, data.mu, p_eps)+A*phiSO*0.5 * data.rho * abs(v) * v;
     phiSO = 0;
-  elseif  SurgeTankType == OpenHPL.Types.SurgeTank.STAirCushion then
+  elseif  SurgeTankType == OpenHPL.Types.SurgeTank.STgasCushion then
     v = Vdot/A;
     m = data.rho * A * l+m_a;
-    p_t = p_ac*((L-h_0/cos_theta)/(L-l))^data.gamma_air;
+    p_t = p_ac*((L-h_0/cos_theta)/(L-l))^gamma_gas;
     F_f = Functions.DarcyFriction.Friction(v, D, l, data.rho, data.mu, p_eps)+A*phiSO*0.5 * data.rho * abs(v) * v;
     phiSO = 0;
   elseif  SurgeTankType == OpenHPL.Types.SurgeTank.STSharpOrifice then
@@ -132,13 +136,13 @@ equation
 <p>These surge tanks are:</p>
 <ol>
 <li>Simple surge tank</li>
-<li>Air cushion surge tank</li>
+<li>gas cushion surge tank</li>
 <li>Throttle valve surge tank</li>
 <li>Sharp orifice surge tank</li>
 </ol>
 <p>All of the surge tanks are modeled using mass and momemtum balance. </p>
-<p>The air cushion surge tank is shown below: </p>
-<p><img src=\"modelica://OpenHPL/Resources/Images/SurgeTankAirCushion.svg\" width=\"600\"/></p>
+<p>The gas cushion surge tank is shown below: </p>
+<p><img src=\"modelica://OpenHPL/Resources/Images/SurgeTankgasCushion.svg\" width=\"600\"/></p>
 <p>The throttle valve surge tank and sharp orifice type surge tank are shown below:</p>
 <p><img src=\"modelica://OpenHPL/Resources/Images/ThrottleValveSurgeTank.png\" width=\"500\"/></p>
 <p><img src=\"modelica://OpenHPL/Resources/Images/SharpOrificeSurgeTank.png\" width=\"500\"/></p>
