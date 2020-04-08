@@ -1,5 +1,6 @@
 within OpenHPL.Tests;
-model TorpaHPPAirCushionTest "Test case for air cushion surge tank from Torpa hydro power plant."
+model TorpaHPPAirCushionTest3
+  "Test case for air cushion surge tank from Torpa hydro power plant."
   extends Modelica.Icons.Example;
   OpenHPL.Waterway.Reservoir reservoir(H_r=200)
                                                annotation (Placement(visible=true, transformation(
@@ -8,14 +9,15 @@ model TorpaHPPAirCushionTest "Test case for air cushion surge tank from Torpa hy
         rotation=0)));
   Modelica.Blocks.Sources.Ramp control(
     duration=0,
-    height=-0.40,
+    height=0.45,
     offset=0.9,
     startTime=0)                                                                                          annotation (
     Placement(visible = true, transformation(origin={-10,70},    extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   OpenHPL.Waterway.Pipe intake(
-    H=266.4,
+    H=229,
     L=9350,
-    D_i=6.56)                        annotation (Placement(visible=true, transformation(extent={{-70,20},{-50,40}}, rotation=0)));
+    D_i=6.56)                        annotation (Placement(visible=true, transformation(extent={{-70,22},
+            {-50,42}},                                                                                              rotation=0)));
   OpenHPL.Waterway.Pipe discharge(
     H=5,
     L=10000,
@@ -25,10 +27,10 @@ model TorpaHPPAirCushionTest "Test case for air cushion surge tank from Torpa hy
         extent={{-10,10},{10,-10}},
         rotation=180)));
   OpenHPL.Waterway.Pipe penstock(
-    D_i=6.56,
-    D_o=6.56,
-    H=8.6,
-    L=250,
+    D_i=6,
+    D_o=6,
+    H=27,
+    L=300,
     vertical=true,
     p_eps=0.005)   annotation (Placement(visible=true, transformation(
         origin={0,30},
@@ -36,9 +38,9 @@ model TorpaHPPAirCushionTest "Test case for air cushion surge tank from Torpa hy
         rotation=0)));
   OpenHPL.Waterway.SurgeTank surgeTank(
     SurgeTankType=OpenHPL.Types.SurgeTank.STAirCushion,
-    H=15,
+    H=25,
     L=10,
-    D=45,
+    D=50,
     p_eps=0.005,
     h_0=2,
     p_ac=4100000,
@@ -61,9 +63,9 @@ equation
   connect(penstock.o, turbine.i) annotation (
     Line(points={{10,30},{14.95,30},{14.95,10},{20,10}},                         color = {28, 108, 200}));
   connect(reservoir.o, intake.i) annotation (
-    Line(points={{-80,30},{-70,30}},                                              color = {28, 108, 200}));
+    Line(points={{-80,30},{-76,30},{-76,32},{-70,32}},                            color = {28, 108, 200}));
   connect(intake.o, surgeTank.i) annotation (
-    Line(points={{-50,30},{-44,30},{-44,34},{-36,34}},                            color = {28, 108, 200}));
+    Line(points={{-50,32},{-44,32},{-44,34},{-36,34}},                            color = {28, 108, 200}));
   connect(surgeTank.o, penstock.i) annotation (
     Line(points={{-16,34},{-14,34},{-14,30},{-10,30}},                            color = {28, 108, 200}));
   connect(discharge.o, tail.o) annotation (Line(points={{70,0},{80,0}}, color={28,108,200}));
@@ -73,4 +75,4 @@ equation
       StopTime=500,
       Interval=1,
       __Dymola_Algorithm="Dassl"));
-end TorpaHPPAirCushionTest;
+end TorpaHPPAirCushionTest3;
