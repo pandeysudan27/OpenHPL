@@ -13,7 +13,8 @@ extends Modelica.Icons.ExamplesPackage;
     OpenHPL.Waterway.Pipe intake(
       H=245,
       L=9350,
-      D_i=6.56)                        annotation (Placement(visible=true, transformation(extent={{-70,22},
+      D_i=6.56,
+      SteadyState=true)                annotation (Placement(visible=true, transformation(extent={{-70,22},
               {-50,42}},                                                                                              rotation=0)));
     OpenHPL.Waterway.Pipe discharge(
       H=5,
@@ -39,6 +40,7 @@ extends Modelica.Icons.ExamplesPackage;
       L=10,
       D=50,
       p_eps=0.005,
+      SteadyState=true,
       h_0=2,
       p_ac=4100000,
       T_ac(displayUnit="K") = 287)                 annotation (Placement(visible=true, transformation(
@@ -166,12 +168,12 @@ extends Modelica.Icons.ExamplesPackage;
       columns={2},
       fileName=ModelicaServices.ExternalReferences.loadResource(
           "modelica://OpenHPL/Resources/Tables/valve1TorpaLowerIndexTest.txt"),
-
       tableName="valve1",
       tableOnFile=true) annotation (Placement(visible=true, transformation(
-          origin={-2,72},
+          origin={4,70},
           extent={{-10,-10},{10,10}},
           rotation=0)));
+
   equation
     connect(turbine1.o, discharge.i) annotation (Line(points={{40,10},{44,10},{
             44,0},{50,0}}, color={28,108,200}));
@@ -184,8 +186,8 @@ extends Modelica.Icons.ExamplesPackage;
     connect(surgeTank.o, penstock.i) annotation (
       Line(points={{-16,34},{-14,34},{-14,30},{-10,30}},                            color = {28, 108, 200}));
     connect(discharge.o, tail.o) annotation (Line(points={{70,0},{80,0}}, color={28,108,200}));
-    connect(turbine1.u_t, valve1.y[1]) annotation (Line(points={{30,22},{20,22},
-            {20,72},{9,72}}, color={0,0,127}));
+    connect(turbine1.u_t, valve1.y[1]) annotation (Line(points={{30,22},{22,22},
+            {22,70},{15,70}}, color={0,0,127}));
     annotation (
       experiment(
         StopTime=1010,
