@@ -5,73 +5,79 @@ extends Modelica.Icons.ExamplesPackage;
   model TrollheimSTSimple "Model of Trollheim HPP with simple surge tank."
     extends Modelica.Icons.Example;
     OpenHPL.Waterway.Reservoir reservoir(H_r=50) annotation (Placement(visible=true, transformation(
-          origin={-90,30},
+          origin={-128, 32},
           extent={{-10,-10},{10,10}},
           rotation=0)));
-    Modelica.Blocks.Sources.Ramp control(
-      duration=0,
-      height=-0.99,
-      offset=1,
-      startTime=1500)                                                                                       annotation (
-      Placement(visible = true, transformation(origin={-10,70},    extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     OpenHPL.Waterway.Pipe intake(
-      H=20,
-      L=4500,
+      
       D_i=6,
-      D_o=6,
-      p_eps=0.000000001)               annotation (Placement(visible=true, transformation(extent={{-70,20},{-50,40}}, rotation=0)));
+      D_o=6,H=20,
+      L=4500, Vdot(fixed = false))               annotation (Placement(visible=true, transformation(extent={{-112, 22}, {-92, 42}}, rotation=0)));
     OpenHPL.Waterway.Pipe discharge(
-      H=0,
-      L=700,
+      
       D_i=6,
-      D_o=6)                                      annotation (Placement(visible=true, transformation(extent={{50,-10},{70,10}}, rotation=0)));
-    OpenHPL.Waterway.Reservoir tail(H_r=5, Input_level=false) annotation (Placement(visible=true, transformation(
+      D_o=6,H=0,
+      L=700)                                      annotation (Placement(visible=true, transformation(extent={{50,-10},{70,10}}, rotation=0)));
+    OpenHPL.Waterway.Reservoir tail(H_r= 2, Input_level=false) annotation (Placement(visible=true, transformation(
           origin={90,0},
           extent={{-10,10},{10,-10}},
           rotation=180)));
     OpenHPL.Waterway.Pipe penstock(
-      D_i=4,
+      D_i= 4,
       D_o=4,
       H=300,
-      L=500,
-      vertical=true,
-      p_eps=0.000001)
+      L=500, SteadyState = true, Vdot(fixed = true),
+      vertical=true)
                      annotation (Placement(visible=true, transformation(
-          origin={0,30},
+          origin={-40, 32},
           extent={{-10,-10},{10,10}},
           rotation=0)));
-    ElectroMech.Turbines.Turbine turbine(
+    OpenHPL.ElectroMech.Turbines.Turbine turbine(
       ValveCapacity=false,               C_v=3.7,
       H_n=370,
       Vdot_n=40,                                  ConstEfficiency=false) annotation (Placement(visible=true, transformation(
-          origin={30,10},
+          origin={-8, 32},
           extent={{-10,-10},{10,10}},
           rotation=0)));
-    Waterway.SurgeTank STSimple(
-      SurgeTankType=OpenHPL.Types.SurgeTank.STSimple,
-      H=80,
-      L=80,
+    OpenHPL.Waterway.SurgeTank STSimple(
+      
       D=4,
-      p_eps=0.000001,
       D_so=1,
       D_t=1.5,
-      L_t=20,
+      H=80,
+      L=80,
+      L_t=20,SurgeTankType=OpenHPL.Types.SurgeTank.STSimple,
       h_0=50)
-      annotation (Placement(transformation(extent={{-42,20},{-22,40}})));
+      annotation (Placement(visible = true, transformation(extent = {{-80, 22}, {-60, 42}}, rotation = 0)));
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(columns = {2},fileName = "D:/OpenHPL/OpenHPL/Resources/Tables/Servo_pos.txt", tableName = "position", tableOnFile = true)  annotation(
+      Placement(visible = true, transformation(origin = {-98, 86}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Nonlinear.Limiter limiter(limitsAtInit = true, uMax = 100, uMin = 1)  annotation(
+      Placement(visible = true, transformation(origin = {-58, 86}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Gain gain(k = 1 / 100)  annotation(
+      Placement(visible = true, transformation(origin = {2, 88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Waterway.DraftTube draftTube(D_i = 2, D_o = 3, H = -6.5, L = -6.6, p_eps = 0.01, theta = 0)  annotation(
+      Placement(visible = true, transformation(origin = {26, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
-    connect(turbine.o, discharge.i) annotation (
-      Line(points={{40,10},{44,10},{44,0},{50,0}},            color = {28, 108, 200}));
-    connect(penstock.o, turbine.i) annotation (
-      Line(points={{10,30},{14.95,30},{14.95,10},{20,10}},                         color = {28, 108, 200}));
-    connect(reservoir.o, intake.i) annotation (
-      Line(points={{-80,30},{-70,30}},                                              color = {28, 108, 200}));
-    connect(discharge.o, tail.o) annotation (Line(points={{70,0},{80,0}}, color={28,108,200}));
-    connect(intake.o, STSimple.i)
-      annotation (Line(points={{-50,30},{-42,30}}, color={28,108,200}));
-    connect(penstock.i, STSimple.o)
-      annotation (Line(points={{-10,30},{-22,30}}, color={28,108,200}));
-    connect(turbine.u_t, control.y)
-      annotation (Line(points={{30,22},{30,70},{1,70}}, color={0,0,127}));
+    connect(draftTube.o, discharge.i) annotation(
+      Line(points = {{36, 4}, {50, 4}, {50, 0}, {50, 0}}, color = {28, 108, 200}));
+    connect(turbine.o, draftTube.i) annotation(
+      Line(points = {{2, 32}, {16, 32}, {16, 4}, {16, 4}}, color = {28, 108, 200}));
+    connect(penstock.i, STSimple.o) annotation(
+      Line(points = {{-50, 32}, {-60, 32}}, color = {28, 108, 200}));
+    connect(penstock.o, turbine.i) annotation(
+      Line(points = {{-30, 32}, {-18, 32}}, color = {28, 108, 200}));
+    connect(gain.y, turbine.u_t) annotation(
+      Line(points = {{14, 88}, {20, 88}, {20, 52}, {-8, 52}, {-8, 44}, {-8, 44}}, color = {0, 0, 127}));
+    connect(limiter.y, gain.u) annotation(
+      Line(points = {{-47, 86}, {-44.5, 86}, {-44.5, 88}, {-10, 88}}, color = {0, 0, 127}));
+    connect(combiTimeTable.y[1], limiter.u) annotation(
+      Line(points = {{-87, 86}, {-70, 86}}, color = {0, 0, 127}));
+    connect(intake.o, STSimple.i) annotation(
+      Line(points = {{-92, 32}, {-80, 32}}, color = {28, 108, 200}));
+    connect(reservoir.o, intake.i) annotation(
+      Line(points = {{-118, 32}, {-112, 32}}, color = {28, 108, 200}));
+    connect(discharge.o, tail.o) annotation(
+      Line(points = {{70, 0}, {80, 0}}, color = {28, 108, 200}));
     annotation (
       experiment(
         StopTime=3000,

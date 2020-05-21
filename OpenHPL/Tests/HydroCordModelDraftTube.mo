@@ -61,7 +61,7 @@ model HydroCordModelDraftTube "Model of HP system with simplified models for pen
     H=365 - 356,
     L=4020,
     p_eps=0.5) annotation (Placement(visible=true, transformation(
-        origin={-26,60},
+        origin={-26, 42},
         extent={{-10,-10},{10,10}},
         rotation=0)));
   OpenHPL.Waterway.Fitting fitting1(

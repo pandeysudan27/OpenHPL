@@ -11,10 +11,9 @@ extends Modelica.Icons.ExamplesPackage;
           extent={{-10,-10},{10,10}},
           rotation=0)));
     OpenHPL.Waterway.Pipe intake(
-      H=245,
-      L=9350,
-      D_i=6.56,
-      SteadyState=true)                annotation (Placement(visible=true, transformation(extent={{-70,22},
+      
+      D_i=6.56,H= 235,
+      L=9350, p_eps = 0.005)                annotation (Placement(visible=true, transformation(extent={{-70,22},
               {-50,42}},                                                                                              rotation=0)));
     OpenHPL.Waterway.Pipe discharge(
       H=5,
@@ -25,35 +24,34 @@ extends Modelica.Icons.ExamplesPackage;
           extent={{-10,10},{10,-10}},
           rotation=180)));
     OpenHPL.Waterway.Pipe penstock(
-      D_i=6.56,
-      D_o=6.56,
-      H=10,
-      L=300,
-      vertical=true,
-      p_eps=0.005)   annotation (Placement(visible=true, transformation(
+      D_i= 6.56,
+      D_o= 6.56,
+      H= 10,
+      L= 300,
+      p_eps= 0.05,
+      vertical=true)   annotation (Placement(visible=true, transformation(
           origin={0,30},
           extent={{-10,-10},{10,10}},
           rotation=0)));
     OpenHPL.Waterway.SurgeTank surgeTank(
-      SurgeTankType=OpenHPL.Types.SurgeTank.STAirCushion,
-      H=25,
-      L=10,
-      D=50,
-      p_eps=0.005,
-      SteadyState=true,
+      
+      D= 50,
+      H= 20,
+      L=10,SurgeTankType=OpenHPL.Types.SurgeTank.STAirCushion,
+      T_ac(displayUnit="K") = 287,
       h_0=2,
       p_ac=4100000,
-      T_ac(displayUnit="K") = 287)                 annotation (Placement(visible=true, transformation(
+      p_eps= 0.5)                 annotation (Placement(visible=true, transformation(
           origin={-26,34},
           extent={{-10,-10},{10,10}},
           rotation=0)));
-    ElectroMech.Turbines.Turbine turbine1(
+    OpenHPL.ElectroMech.Turbines.Turbine turbine1(
       ValveCapacity=false,
       C_v=3.7,
       H_n=445,
       Vdot_n=17.5,
       ConstEfficiency=false) annotation (Placement(visible=true, transformation(
-          origin={30,10},
+          origin={30, 12},
           extent={{-10,-10},{10,10}},
           rotation=0)));
     ElectroMech.Turbines.Turbine turbine2(
@@ -67,29 +65,31 @@ extends Modelica.Icons.ExamplesPackage;
           rotation=0)));
     Modelica.Blocks.Sources.CombiTimeTable valve2(
       columns={2},
-      fileName=ModelicaServices.ExternalReferences.loadResource(
-          "modelica://OpenHPL/Resources/Tables/valve2Torpa.txt"),
+      fileName="D:/OpenHPL/OpenHPL/Resources/Tables/valve2Torpa.txt",
+      startTime=0,
       tableName="valve2",
-      tableOnFile=true,
-      startTime=0) annotation (Placement(visible=true, transformation(
+      tableOnFile=true) annotation (Placement(visible=true, transformation(
           origin={-36,-8},
           extent={{-10,-10},{10,10}},
           rotation=0)));
     Modelica.Blocks.Sources.CombiTimeTable valve1(
       columns={2},
-      fileName=ModelicaServices.ExternalReferences.loadResource(
-          "modelica://OpenHPL/Resources/Tables/valve1Torpa.txt"),
+      fileName="D:/OpenHPL/OpenHPL/Resources/Tables/valve1Torpa.txt",
+      startTime=0,
       tableName="valve1",
-      tableOnFile=true,
-      startTime=0) annotation (Placement(visible=true, transformation(
+      tableOnFile=true) annotation (Placement(visible=true, transformation(
           origin={2,70},
           extent={{-10,-10},{10,10}},
           rotation=0)));
   equation
-    connect(turbine1.o, discharge.i) annotation (Line(points={{40,10},{44,10},{
-            44,0},{50,0}}, color={28,108,200}));
-    connect(penstock.o, turbine1.i) annotation (Line(points={{10,30},{12.95,30},
-            {12.95,10},{20,10}}, color={28,108,200}));
+    connect(turbine1.u_t, valve1.y[1]) annotation(
+      Line(points = {{30, 24}, {22, 24}, {22, 70}, {13, 70}}, color = {0, 0, 127}));
+    connect(turbine2.i, turbine1.i) annotation(
+      Line(points = {{18, -24}, {8, -24}, {8, 12}, {20, 12}}, color = {28, 108, 200}));
+    connect(penstock.o, turbine1.i) annotation(
+      Line(points = {{10, 30}, {20, 30}, {20, 12}}, color = {28, 108, 200}));
+    connect(turbine1.o, discharge.i) annotation(
+      Line(points = {{40, 12}, {40, 0}, {50, 0}}, color = {28, 108, 200}));
     connect(reservoir.o, intake.i) annotation (
       Line(points={{-80,30},{-76,30},{-76,32},{-70,32}},                            color = {28, 108, 200}));
     connect(intake.o, surgeTank.i) annotation (
@@ -97,12 +97,8 @@ extends Modelica.Icons.ExamplesPackage;
     connect(surgeTank.o, penstock.i) annotation (
       Line(points={{-16,34},{-14,34},{-14,30},{-10,30}},                            color = {28, 108, 200}));
     connect(discharge.o, tail.o) annotation (Line(points={{70,0},{80,0}}, color={28,108,200}));
-    connect(turbine2.i, turbine1.i) annotation (Line(points={{18,-24},{8,-24},{
-            8,10},{20,10}}, color={28,108,200}));
     connect(turbine2.o, discharge.i) annotation (Line(points={{38,-24},{40,-24},
             {40,0},{50,0}}, color={28,108,200}));
-    connect(turbine1.u_t, valve1.y[1]) annotation (Line(points={{30,22},{22,22},
-            {22,70},{13,70}}, color={0,0,127}));
     connect(turbine2.u_t, valve2.y[1]) annotation (Line(points={{28,-12},{2,-12},
             {2,-8},{-25,-8}}, color={0,0,127}));
     annotation (

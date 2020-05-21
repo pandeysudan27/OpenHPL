@@ -84,13 +84,13 @@ model HydroCordModelDraftTube2 "Model of HP system with simplified models for pe
         extent={{-10,-10},{10,10}},
         rotation=0)));
   Modelica.Blocks.Sources.CombiTimeTable servo_pos(columns = {2}, fileName = "C:/Users/liubomyr/OneDrive/Documents/PhD/HydroCord/Servo_pos_short.txt", tableName = "position", tableOnFile = true) annotation (
-    Placement(visible = true, transformation(origin = {-86, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-82, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.CombiTimeTable tail_level(columns = {2}, fileName = "C:/Users/liubomyr/OneDrive/Documents/PhD/HydroCord/Tail_level_short.txt", tableName = "level", tableOnFile = true) annotation (
     Placement(visible = true, transformation(origin = {58, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain per_gain(k = 1 / 100) annotation (
-    Placement(visible = true, transformation(origin = {-22, -44}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {12, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Nonlinear.Limiter limiter1(limitsAtInit = true, uMax = 100, uMin = 0.001) annotation (
-    Placement(visible = true, transformation(origin = {-54, -42}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-34, -48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Add add1(k2 = -1) annotation (
     Placement(visible = true, transformation(origin = {90, -44}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Constant const_level(k = 22.6) annotation (
@@ -99,30 +99,25 @@ model HydroCordModelDraftTube2 "Model of HP system with simplified models for pe
         origin={-90,90},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  OpenHPL.Waterway.Pipe pipe1(
-    D_i=2.2,
-    D_o=3.04,
-    H=12,
-    L=1.0) annotation (Placement(visible=true, transformation(extent={{44,4},{64,24}}, rotation=0)));
 equation
+  connect(servo_pos.y[1], limiter1.u) annotation(
+    Line(points = {{-71, -50}, {-49, -50}, {-49, -48}, {-46, -48}}, color = {0, 0, 127}));
+  connect(limiter1.y, per_gain.u) annotation(
+    Line(points = {{-23, -48}, {-11.5, -48}, {-11.5, -46}, {0, -46}}, color = {0, 0, 127}));
+  connect(per_gain.y, turbine.u_t) annotation(
+    Line(points = {{23, -46}, {40, -46}, {40, 20}, {32, 20}, {32, 6}}, color = {0, 0, 127}));
   connect(discharge1.p, pipe1.n) annotation (
     Line(points = {{44, -14}, {46, -14}, {46, 2}, {64, 2}, {64, 14}, {64, 14}}, color = {28, 108, 200}));
   connect(turbine.n, pipe1.p) annotation (
     Line(points = {{42, -6}, {44, -6}, {44, 14}, {44, 14}}, color = {28, 108, 200}));
   connect(discharge1.n, discharge2.p) annotation (
     Line(points = {{64, -14}, {64, -14}, {64, -8}, {64, -8}}, color = {28, 108, 200}));
-  connect(limiter1.y, per_gain.u) annotation (
-    Line(points={{-43,-42},{-40,-42},{-40,-44},{-34,-44}},          color = {0, 0, 127}));
   connect(add1.y, tail.Level_in) annotation (
     Line(points={{90,-33},{90,-33},{90,5},{106,5}},             color = {0, 0, 127}));
   connect(const_level.y, add1.u2) annotation (
     Line(points={{69,-88},{96,-88},{96,-56},{96,-56}},          color = {0, 0, 127}));
   connect(tail_level.y[1], add1.u1) annotation (
     Line(points={{69,-64},{84,-64},{84,-56},{84,-56}},          color = {0, 0, 127}, thickness = 0.5));
-  connect(per_gain.y, turbine.u_t) annotation (
-    Line(points={{-11,-44},{40,-44},{40,20},{32,20},{32,6}},            color = {0, 0, 127}));
-  connect(servo_pos.y[1], limiter1.u) annotation (
-    Line(points={{-75,-40},{-72,-40},{-72,-42},{-66,-42},{-66,-42}},            color = {0, 0, 127}, thickness = 0.5));
   connect(discharge2.n, tail.n) annotation (
     Line(points={{84,-8},{84,6.66134e-16}},
                                        color = {28, 108, 200}));

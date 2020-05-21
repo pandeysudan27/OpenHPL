@@ -6,7 +6,7 @@ model DraftTube "Model of a draft tube for reaction turbines"
   parameter Types.DraftTube DraftTubeType = OpenHPL.Types.DraftTube.ConicalDiffuser "Types of draft tube" annotation (
     Dialog(group = "Draft tube types"));
 
-  // geometrical parameters of the draft tube
+// geometrical parameters of the draft tube
   parameter Modelica.SIunits.Length H = 7 "Vertical height of conical diffuser" annotation (
     Dialog(group = "Geometry",enable=DraftTubeType == OpenHPL.Types.DraftTube.ConicalDiffuser));
   parameter Modelica.SIunits.Length L = 7.017 "Slant height of conical diffuser, for conical diffuser L=H/cos(diffusion_angle/2), diffusion_anlge=8" annotation (
@@ -59,7 +59,7 @@ model DraftTube "Model of a draft tube for reaction turbines"
   Modelica.SIunits.Force F_fm "Fluid frictional force in the Main section of Moody spreading pipe";
   Modelica.SIunits.Force F_fb "Fluid frictional force in the Branch section of Moody spreading pipe";
 
-  //Real cos_theta = H / L "slope ratio";
+//Real cos_theta = H / L "slope ratio";
   Modelica.SIunits.Velocity v "Water velocity for conical diffuser";
   Modelica.SIunits.Velocity v_m "Water velocity inside Main section of Moody spreading pipes";
   Modelica.SIunits.Velocity v_b "Water velocity inside Branch section of Moody spreading pipes";
@@ -81,61 +81,69 @@ model DraftTube "Model of a draft tube for reaction turbines"
   Real cos_theta_moody_by_2 = Modelica.Math.cos(Modelica.SIunits.Conversions.from_deg(theta_moody/2))
                                                                                               "Calculating cos_theta_moody_by_2";
 
- // connectors
+// connectors
   extends OpenHPL.Interfaces.ContactPort;
 initial equation
   if SteadyState == true then
     der(M) = 0;
-    //der(n.T) = 0;
+//der(n.T) = 0;
   else
     Vdot = Vdot_0;
-    //n.T = p.T;
+//n.T = p.T;
   end if;
 equation
   der(M) = Mdot + F "Momentum balance";
   if DraftTubeType == OpenHPL.Types.DraftTube.ConicalDiffuser then
-    M = m*v;
-    m = data.rho*V "Mass of water inside the draft tube";
-    m_m=0;m_b=0; // Unimportant for conical diffuser
-    V = pi*H/12*(D_i^2+D_o^2+D_i*D_o) "Volume of water inside the draft tube";
-    v = Vdot/A_;
-    Vdot_b = 0; // Unimportant for conical diffuser
-    v_m=0;v_b=0; // Unimportant for conical diffuser
-
-    Mdot = mdot*v;
-    mdot = data.rho*Vdot;
-    mdot_m=0; mdot_b=0; // Unimportant for conical diffuser
-
-    F = F_p-F_g-F_f;
+    M = m * v;
+    m = data.rho * V "Mass of water inside the draft tube";
+    m_m = 0;
+    m_b = 0;
+// Unimportant for conical diffuser
+    V = pi * H / 12 * (D_i ^ 2 + D_o ^ 2 + D_i * D_o) "Volume of water inside the draft tube";
+    v = Vdot / A_;
+    Vdot_b = 0;
+// Unimportant for conical diffuser
+    v_m = 0;
+    v_b = 0;
+// Unimportant for conical diffuser
+    Mdot = mdot * v;
+    mdot = data.rho * Vdot;
+    mdot_m = 0;
+    mdot_b = 0;
+// Unimportant for conical diffuser
+    F = F_p - F_g - F_f;
     F_p = p_i * A_i - p_o * A_o;
-    F_f = Functions.DarcyFriction.Friction(v, D_, L, data.rho, data.mu, p_eps)+1/2*data.rho*v*abs(v)*A_i*phi_d;
-    F_fm=0;F_fb=0;
-    phi_d = 0.23*(1-D_i/D_o)^2;
-    phi_d_o=0; // Unimportant for conical diffuser
-    F_g = m*data.g*cos_theta;
-
+    F_f = Functions.DarcyFriction.Friction(v, D_, L, data.rho, data.mu, p_eps) + 1 / 2 * data.rho * v * abs(v) * A_i * phi_d;
+    F_fm = 0;
+    F_fb = 0;
+    phi_d = 0.23 * (1 - D_i / D_o) ^ 2;
+    phi_d_o = 0;
+// Unimportant for conical diffuser
+    F_g = m * data.g * cos_theta;
   elseif DraftTubeType == OpenHPL.Types.DraftTube.MoodySpreadingPipe then
-    // Taking momentum balance only on y-direction
-    M = m_m*v_m+2*m_b*v_b*cos_theta_moody_by_2;
-    m_m=data.rho*A_i*L_m; m_b=data.rho*A_o*L_m;
-    m = m_m+2*m_b;
-    v_m = Vdot/A_i; v_b=A_i/(2*A_o)*v_m; v=v_m;
-    V = A_i*L_m+2*A_o*L_b;
-
-    Mdot = mdot_m*v_m+2*mdot_b*cos_theta_moody_by_2;
-    mdot_m=data.rho*Vdot; mdot_b=data.rho*Vdot_b; Vdot_b=A_o*v_b;
+// Taking momentum balance only on y-direction
+    M = m_m * v_m + 2 * m_b * v_b * cos_theta_moody_by_2;
+    m_m = data.rho * A_i * L_m;
+    m_b = data.rho * A_o * L_m;
+    m = m_m + 2 * m_b;
+    v_m = Vdot / A_i;
+    v_b = A_i / (2 * A_o) * v_m;
+    v = v_m;
+    V = A_i * L_m + 2 * A_o * L_b;
+    Mdot = mdot_m * v_m + 2 * mdot_b * cos_theta_moody_by_2;
+    mdot_m = data.rho * Vdot;
+    mdot_b = data.rho * Vdot_b;
+    Vdot_b = A_o * v_b;
     mdot = mdot_m;
-
-    F = F_p-F_g-F_f;
-    F_p = p_i*A_i-2*p_o*A_o*cos_theta_moody_by_2;
-    F_g = m_m*data.g+2*m_b*data.g*cos_theta_moody_by_2;
-    F_f = F_fm+2*F_fb*cos_theta_moody_by_2+data.rho*v_m*abs(v_m)*A_i*phi_d;
+    F = F_p - F_g - F_f;
+    F_p = p_i * A_i - 2 * p_o * A_o * cos_theta_moody_by_2;
+    F_g = m_m * data.g + 2 * m_b * data.g * cos_theta_moody_by_2;
+    F_f = F_fm + 2 * F_fb * cos_theta_moody_by_2 + data.rho * v_m * abs(v_m) * A_i * phi_d;
     F_fm = Functions.DarcyFriction.Friction(v_m, D_i, L_m, data.rho, data.mu, p_eps);
     F_fb = Functions.DarcyFriction.Friction(v_b, D_o, L_b, data.rho, data.mu, p_eps);
-
-    // calculating phi_d
-    phi_d = 1+(v_b/v_m)^2-2*v_b/v_m*cos_theta_moody-phi_d_o*(v_b/v_m)^2;
-    // phi_d_o is calculated based on theta_moody
+// calculating phi_d
+    phi_d = 1 + (v_b / v_m) ^ 2 - 2 * v_b / v_m * cos_theta_moody - phi_d_o * (v_b / v_m) ^ 2;
+// phi_d_o is calculated based on theta_moody
     if theta_moody == 15 then
       phi_d_o = 0.04;
     elseif theta_moody == 30 then
@@ -147,13 +155,12 @@ equation
     elseif theta_moody == 90 then
       phi_d_o = 1;
     end if;
-
   end if;
-  // connector
-    p_i = i.p;
+// connector
+  p_i = i.p;
     p_o = o.p;
   annotation (
-    Documentation(info="<html>
+    Documentation(info = "<html>
 <p>Two of the draft tubes are modeled using <i>Momentum balance . </i>They are:</p>
 <ul>
 <li><b>Conical diffuser:</b> It is the most well-know draft tube which has efficiency of around 90&percnt;  and mostly used for low head reaction turbines.</li>
@@ -162,5 +169,6 @@ equation
 <p><br>The conical diffuser and Moody spreading draft tubes are shown below:</p>
 <p><img src=\"modelica://OpenHPL/Resources/Images/conicalDiffuser.svg\" width=\"500\"/></p>
 <p><img src=\"modelica://OpenHPL/Resources/Images/moodySpreadingDT.svg\" width=\"500\"/></p>
-</html>"));
+</html>"),
+  Icon(graphics = {Text(origin = {-35, 108}, lineColor = {0, 0, 255}, extent = {{101, -28}, {-33, 6}}, textString = "%name")}));
 end DraftTube;

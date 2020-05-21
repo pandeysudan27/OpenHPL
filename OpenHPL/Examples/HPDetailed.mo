@@ -12,15 +12,15 @@ model HPDetailed "Model of waterway of the HP system with detailed model for the
         extent={{-10,-10},{10,10}},
         rotation=0)));
   Waterway.Pipe intake(H=23) annotation (Placement(visible=true, transformation(extent={{-70,0},{-50,20}},  rotation=0)));
-  Waterway.Pipe discharge(H=0.5, L=600) annotation (Placement(visible=true, transformation(extent={{50,-10},{70,10}},rotation=0)));
+  OpenHPL.Waterway.Pipe discharge(H=0.5, L=600) annotation (Placement(visible=true, transformation(extent={{50, -18}, {70, 2}},rotation=0)));
   Waterway.Reservoir tail(H_r=5) annotation (Placement(visible=true, transformation(
         origin={90,0},
         extent={{-10,10},{10,-10}},
         rotation=180)));
-  ElectroMech.Turbines.Turbine turbine(
+  OpenHPL.ElectroMech.Turbines.Turbine turbine(
     C_v=3.7,
     ConstEfficiency=false,
-    WaterCompress=true) annotation (Placement(visible=true, transformation(extent={{20,-10},{40,10}},
+    WaterCompress=true) annotation (Placement(visible=true, transformation(extent={{18, -8}, {38, 12}},
                                                                                                     rotation=0)));
   Waterway.SurgeTank surgeTank(h_0=69.9) annotation (Placement(visible=true, transformation(extent={{-40,0},{-20,20}},  rotation=0)));
   Waterway.PenstockKP penstockKP(
@@ -30,15 +30,17 @@ model HPDetailed "Model of waterway of the HP system with detailed model for the
     PipeElasticity=false,
     h_s0=69.9,
     vertical=true) annotation (Placement(transformation(extent={{-10,0},{10,20}})));
+  OpenHPL.ElectroMech.Turbines.Turbine turbine1 annotation(
+    Placement(visible = true, transformation(origin = {-22, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(control.y, turbine.u_t) annotation (
-    Line(points={{21,50},{30,50},{30,12}},          color = {0, 0, 127}));
-  connect(discharge.o, tail.o) annotation (
-    Line(points={{70,0},{80,0}},                                        color = {28, 108, 200}));
-  connect(turbine.o, discharge.i) annotation (
-    Line(points={{40,0},{50,0}},                                        color = {28, 108, 200}));
-  connect(turbine.i, penstockKP.o) annotation (
-    Line(points={{20,0},{14,0},{14,10},{10,10}},                    color = {28, 108, 200}));
+  connect(turbine.o, discharge.i) annotation(
+    Line(points = {{38, 2}, {50, 2}, {50, -8}}, color = {28, 108, 200}));
+  connect(discharge.o, tail.o) annotation(
+    Line(points = {{70, -8}, {75, -8}, {75, 0}, {80, 0}}, color = {28, 108, 200}));
+  connect(turbine.i, penstockKP.o) annotation(
+    Line(points = {{18, 2}, {18, 10}, {10, 10}}, color = {28, 108, 200}));
+  connect(control.y, turbine.u_t) annotation(
+    Line(points = {{21, 50}, {28, 50}, {28, 14}}, color = {0, 0, 127}));
   connect(surgeTank.o, penstockKP.i) annotation (
     Line(points={{-20,10},{-10,10}},                             color = {28, 108, 200}));
   connect(intake.o, surgeTank.i) annotation (
