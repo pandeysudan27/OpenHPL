@@ -12,8 +12,8 @@ extends Modelica.Icons.ExamplesPackage;
           rotation=0)));
     OpenHPL.Waterway.Pipe intake(
       
-      D_i=6.56,H= 235,
-      L=9350, p_eps = 0.005)                annotation (Placement(visible=true, transformation(extent={{-70,22},
+      D_i= 6.7,H= 235,
+      L= 9500, p_eps = 0.9)                annotation (Placement(visible=true, transformation(extent={{-70,22},
               {-50,42}},                                                                                              rotation=0)));
     OpenHPL.Waterway.Pipe discharge(
       H=5,
@@ -28,14 +28,14 @@ extends Modelica.Icons.ExamplesPackage;
       D_o= 6.56,
       H= 10,
       L= 300,
-      p_eps= 0.05,
+      p_eps= 2,
       vertical=true)   annotation (Placement(visible=true, transformation(
           origin={0,30},
           extent={{-10,-10},{10,10}},
           rotation=0)));
     OpenHPL.Waterway.SurgeTank surgeTank(
       
-      D= 50,
+      D= 45,
       H= 20,
       L=10,SurgeTankType=OpenHPL.Types.SurgeTank.STAirCushion,
       T_ac(displayUnit="K") = 287,
