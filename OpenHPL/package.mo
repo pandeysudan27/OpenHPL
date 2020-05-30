@@ -7,7 +7,7 @@ package OpenHPL
     version="1.1.1",
     versionDate="2020-01-09",
     Protection(access = Access.packageDuplicate),
-    uses(OpenIPSL(version="2.0.0-dev"), Modelica(version="3.2.3")),
+    uses(Modelica(version="3.2.3"),PVSystems(version="0.6.3"),OpenIPSL(version="1.5.0"),WindPowerPlants(version="1.1.1"),PhotoVoltaics(version="1.3.1")),
     preferredView="info",
     Documentation(info="<html>
 <p>The OpenHPL is an open-source hydropower library that
