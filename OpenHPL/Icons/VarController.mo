@@ -61,7 +61,14 @@ partial class VarController "Icon for variability controller."
           fillColor={0,0,255},
           fillPattern=FillPattern.Solid,
           textString="H_n"),
-        Bitmap(extent={{-40,-82},{82,68}}, fileName=
-              "modelica://OpenHPL/Resources/Images/variabilityController.svg")}),
+        Bitmap(extent={{-40,-66},{60,52}}, fileName=
+              "modelica://OpenHPL/Resources/Images/variabilityController.svg"),
+        Text(
+          extent={{56,12},{104,-8}},
+          lineColor={0,0,255},
+          lineThickness=1,
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          textString="u_v")}),
     Diagram(coordinateSystem(preserveAspectRatio = false)));
 end VarController;

@@ -38,6 +38,8 @@ model HPSimple_generator "Model of waterway and aggregate of the HP system with 
         origin={-90,90},
         extent={{-10,-10},{10,10}},
         rotation=0)));
+  Controllers.Governor governor
+    annotation (Placement(transformation(extent={{-74,-48},{-54,-28}})));
 equation
   connect(penstock.o, turbine.i) annotation (
     Line(points={{10,10},{14.95,10},{14.95,0},{20,0}},                     color = {28, 108, 200}));
