@@ -111,7 +111,7 @@ equation
     else
       v = Vdot / ((A_t*L_t+A*(l-L_t))/l); // velocity based on dynamic average area as the flow induced more in diameter D from D_t and vice versa
       m = data.rho * (A_t * L_t + A * (l - L_t));
-      M = data.rho * (A_t * L_t*Vdot/A_t + A * (l - L_t)*Vdot/A);//m*v;
+      M = m*v;
       if v > 0 then
         F_f = Functions.DarcyFriction.Friction(v, D_t, L_t, data.rho, data.mu, p_eps) + Functions.DarcyFriction.Friction(v, D, l - L_t, data.rho, data.mu, p_eps) + ((A_t*L_t+A*(l-L_t))/l) * phiSO * 0.5 * data.rho * abs(v) * v;
         phiSO = Functions.Fitting.FittingPhi(v, D_t, D, L, 90, data.rho, data.mu, data.p_eps, OpenHPL.Types.Fitting.Square);
