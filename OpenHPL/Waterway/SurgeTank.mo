@@ -19,8 +19,13 @@ model SurgeTank "Model of the surge tank/shaft"
     Dialog(group = "Geometry",enable=SurgeTankType == OpenHPL.Types.SurgeTank.STSharpOrifice));
   parameter Modelica.SIunits.Diameter D_t = 1.7 "If Throttle value type: Diameter of throat" annotation (
     Dialog(group = "Geometry",enable=SurgeTankType == OpenHPL.Types.SurgeTank.STThrottleValve));
-  parameter Modelica.SIunits.Diameter L_t = 5 "If Throttle value type: Diameter of throat" annotation (
+  parameter Modelica.SIunits.Diameter L_t = 5 "If Throttle value type: Length of throat" annotation (
     Dialog(group = "Geometry",enable=SurgeTankType == OpenHPL.Types.SurgeTank.STThrottleValve));
+  parameter Modelica.SIunits.Diameter D_at = 2 "If Air cushion type: Diameter of access tunnel" annotation (
+    Dialog(group = "Geometry",enable=SurgeTankType == OpenHPL.Types.SurgeTank.STAirCushion));
+  parameter Modelica.SIunits.Diameter L_at = 5 "If Air cushion type: Length of access tunnel" annotation (
+    Dialog(group = "Geometry",enable=SurgeTankType == OpenHPL.Types.SurgeTank.STAirCushion));
+
 
   // Condition for steady state
   parameter Boolean SteadyState = data.Steady "If true - starts from Steady State" annotation (
@@ -45,6 +50,7 @@ model SurgeTank "Model of the surge tank/shaft"
   Modelica.SIunits.Force F "Total force acting in the surge tank";
   Modelica.SIunits.Area A = (pi*D ^ 2) / 4 "Cross sectional area of the surge tank";
   Modelica.SIunits.Area A_t = (pi*D_t ^ 2) / 4 "Cross sectional area of the throttle valve surge tank";
+  Modelica.SIunits.Area A_at = (pi*D_at ^ 2) / 4 "Cross sectional area of the access tunnel for the air cushion surge tank";
   Modelica.SIunits.Length l = h / cos_theta "Length of water in the surge tank";
   Real cos_theta = H / L "Slope ratio";
   Modelica.SIunits.Velocity v "Water velocity";
@@ -81,13 +87,30 @@ equation
     phiSO = 0;
     F_p = (p_b - p_t) * A;
   elseif SurgeTankType == OpenHPL.Types.SurgeTank.STAirCushion then
-    v = Vdot / A;
-    m = data.rho * A * l + m_a;
-    M = m * v;
-    p_t = p_ac * ((L - h_0 / cos_theta) / (L - l)) ^ data.gamma_air;
-    F_f = Functions.DarcyFriction.Friction(v, D, l, data.rho, data.mu, p_eps) + A * phiSO * 0.5 * data.rho * abs(v) * v;
-    phiSO = 0;
-    F_p = (p_b - p_t) * A;
+    p_t = p_ac * ((L - h_0/cos_theta) / (L - l)) ^ data.gamma_air;
+    if l <= L_at then
+      v = Vdot / A_at;
+      m = data.rho * A_at * l + m_a;
+      M = m * v;
+      F_f = Functions.DarcyFriction.Friction(v, D_at, l, data.rho, data.mu, p_eps) + A_at * phiSO * 0.5 * data.rho * abs(v) * v;
+      phiSO = 0;
+      F_p = (p_b - p_t) * A_at;
+    else
+      v = Vdot / ((A_at*L_at+A*(l-L_at))/(l)); // velocity based on dynamic average area as the flow induced more in diameter D from D_at and vice versa
+      m = data.rho * (A_at * L_at + A * (l - L_at)) + m_a;
+      M = m*v;
+      if v > 0 then
+        F_f = Functions.DarcyFriction.Friction(v, D_at, L_at, data.rho, data.mu, p_eps) + Functions.DarcyFriction.Friction(v, D, l - L_at, data.rho, data.mu, p_eps) + ((A_at*L_at+A*(l-L_at))/(l)) * phiSO * 0.5 * data.rho * abs(v) * v;
+        phiSO = Functions.Fitting.FittingPhi(v, D_at, D, L, 90, data.rho, data.mu, data.p_eps, OpenHPL.Types.Fitting.Square);
+      elseif v < 0 then
+        F_f = Functions.DarcyFriction.Friction(v, D_at, L_at, data.rho, data.mu, p_eps) + Functions.DarcyFriction.Friction(v, D, l - L_at, data.rho, data.mu, p_eps) + ((A_at*L_at+A*(l-L_at))/(l)) * phiSO * 0.5 * data.rho * abs(v) * v;
+        phiSO = Functions.Fitting.FittingPhi(v, D, D_at, L, 90, data.rho, data.mu, data.p_eps, OpenHPL.Types.Fitting.Square);
+      else
+        F_f = 0;
+        phiSO = 0;
+      end if;
+      F_p = (p_b - (p_t+data.rho*data.g*(l-L_at))) * A_at+(p_t+data.rho*data.g*(l-L_at)-p_t)*A;
+    end if;
   elseif SurgeTankType == OpenHPL.Types.SurgeTank.STSharpOrifice then
     v = Vdot / A;
     m = data.rho * A * l;
@@ -107,7 +130,7 @@ equation
       M = m * v;
       F_f = Functions.DarcyFriction.Friction(v, D_t, l, data.rho, data.mu, p_eps) + A_t * phiSO * 0.5 * data.rho * abs(v) * v;
       phiSO = 0;
-      F_p = (p_b - p_t) * A;
+      F_p = (p_b - p_t) * A_t;
     else
       v = Vdot / ((A_t*L_t+A*(l-L_t))/l); // velocity based on dynamic average area as the flow induced more in diameter D from D_t and vice versa
       m = data.rho * (A_t * L_t + A * (l - L_t));
