@@ -109,7 +109,7 @@ equation
         F_f = 0;
         phiSO = 0;
       end if;
-      F_p = (p_b - (p_t+data.rho*data.g*(l-L_at))) * A_at+(p_t+data.rho*data.g*(l-L_at)-p_t)*A;
+      F_p = (p_b - (p_t+data.rho*data.g*(l-L_at)*cos_theta)) * A_at+(p_t+data.rho*data.g*(l-L_at*cos_theta)-p_t)*A;
     end if;
   elseif SurgeTankType == OpenHPL.Types.SurgeTank.STSharpOrifice then
     v = Vdot / A;
@@ -145,7 +145,7 @@ equation
         F_f = 0;
         phiSO = 0;
       end if;
-      F_p = (p_b - (p_t+data.rho*data.g*(l-L_t))) * A_t+(p_t+data.rho*data.g*(l-L_t)-p_t)*A;
+      F_p = (p_b - (p_t+data.rho*data.g*(l-L_t)*cos_theta)) * A_t+(p_t+data.rho*data.g*(l-L_t)*cos_theta-p_t)*A;
     end if;
     p_t = data.p_a;
   end if;
