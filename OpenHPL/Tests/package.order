@@ -61,3 +61,5 @@ HydroCordModelFrancisDraftTube
 HydroCordModeKPlFrancisDraftTube
 HydroCordModelDraftTube3
 ParallelHydroGeneratorSystemDroopControl
+ParallelTurbineCaseDroopControl
+TwoParallelTurbineCaseDroopControl

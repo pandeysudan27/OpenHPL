@@ -53,7 +53,7 @@ model ParallelHydroGeneratorSystemDroopControl
   ElectroMech.Generators.SimpleGen Gen(J=5e5)
     annotation (Placement(transformation(extent={{4,0},{24,20}})));
   Modelica.Blocks.Sources.Ramp puLoad(
-    duration=20,
+    duration=5,
     height=0.3,
     offset=0.5,
     startTime=100) annotation (Placement(visible=true, transformation(
@@ -104,7 +104,7 @@ equation
           -10},{8,-50},{30,-50},{30,-42}}, color={0,0,127}));
   annotation (
     experiment(
-      StopTime=200,
-      Interval=0.4,
+      StopTime=2000,
+      __Dymola_NumberOfIntervals=10000,
       __Dymola_Algorithm="Dassl"));
 end ParallelHydroGeneratorSystemDroopControl;
