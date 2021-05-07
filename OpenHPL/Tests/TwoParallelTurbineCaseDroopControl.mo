@@ -9,12 +9,13 @@ model TwoParallelTurbineCaseDroopControl
   inner OpenHPL.Constants Const annotation (
     Placement(visible = true, transformation(origin={-210,132},  extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   ElectroMech.Generators.SimpleGen Gen(
-    J=1,
+    J=0.001,
     theta_e=1,
-    k_b=0) annotation (Placement(transformation(extent={{82,32},{102,52}})));
+    k_b=0,
+    w_0=314) annotation (Placement(transformation(extent={{82,32},{102,52}})));
   Modelica.Blocks.Sources.Ramp puLoad(
-    duration=20,
-    height=0.3,
+    duration=2,
+    height=-0.4,
     offset=0.5,
     startTime=100) annotation (Placement(visible=true, transformation(
         origin={26,8},
@@ -26,13 +27,12 @@ model TwoParallelTurbineCaseDroopControl
         origin={56,8})));
   Modelica.Blocks.Continuous.LimPID PI1(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=1,
-    Ti=10000,
+    k=0.1,
+    Ti=10,
     yMax=1,
     yMin=0.01,
-    Ni=0.01,
     initType=Modelica.Blocks.Types.InitPID.SteadyState)
-    annotation (Placement(transformation(extent={{56,-68},{76,-48}})));
+    annotation (Placement(transformation(extent={{54,-68},{74,-48}})));
   Waterway.Reservoir         reservoir1(H_r=50)
                                                annotation (Placement(visible=true, transformation(
         origin={-200,90},
@@ -69,12 +69,11 @@ model TwoParallelTurbineCaseDroopControl
     L=80,
     D=4,
     SteadyState=true,
-    h_0=40)                                      annotation (Placement(visible=true, transformation(
+    h_0=70)                                      annotation (Placement(visible=true, transformation(
         origin={-144,90},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  ElectroMech.Turbines.Turbine turbine1(C_v=3.7, ConstEfficiency=false)
-                                                                       annotation (Placement(visible=true, transformation(
+  ElectroMech.Turbines.Turbine turbine1(C_v=4, ConstEfficiency=false)  annotation (Placement(visible=true, transformation(
         origin={-96,88},
         extent={{-10,-10},{10,10}},
         rotation=0)));
@@ -114,12 +113,11 @@ model TwoParallelTurbineCaseDroopControl
     L=80,
     D=4,
     SteadyState=true,
-    h_0=40)                                      annotation (Placement(visible=true, transformation(
+    h_0=70)                                      annotation (Placement(visible=true, transformation(
         origin={-144,26},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  ElectroMech.Turbines.Turbine turbine2(C_v=3.7, ConstEfficiency=false)
-                                                                       annotation (Placement(visible=true, transformation(
+  ElectroMech.Turbines.Turbine turbine2(C_v=4, ConstEfficiency=false)  annotation (Placement(visible=true, transformation(
         origin={-96,26},
         extent={{-10,-10},{10,10}},
         rotation=0)));
@@ -129,13 +127,13 @@ model TwoParallelTurbineCaseDroopControl
     annotation (Placement(transformation(extent={{-20,34},{0,54}})));
   Modelica.Blocks.Math.MultiSum PGenTotal(nu=2)
     annotation (Placement(transformation(extent={{34,58},{46,70}})));
-  ElectroMech.Generators.SimpleGen Gen1(J=5e5)
+  ElectroMech.Generators.SimpleGen Gen1(J=6e5, k_b=0)
     annotation (Placement(transformation(extent={{-106,52},{-86,72}})));
-  ElectroMech.Generators.SimpleGen Gen2(J=5e5)
+  ElectroMech.Generators.SimpleGen Gen2(J=6e5, k_b=0)
     annotation (Placement(transformation(extent={{-106,-12},{-86,8}})));
-  Modelica.Blocks.Sources.RealExpression DeltaP1(y=-65e6/0.02*(Gen.f - 50)/50)
+  Modelica.Blocks.Sources.RealExpression DeltaP1(y=-65e6/0.04*(Gen.f - 50)/50)
     annotation (Placement(transformation(extent={{-160,52},{-140,72}})));
-  Modelica.Blocks.Sources.RealExpression DeltaP2(y=-65e6/0.04*(Gen.f - 50)/50)
+  Modelica.Blocks.Sources.RealExpression DeltaP2(y=-65e6/0.03*(Gen.f - 50)/50)
     annotation (Placement(transformation(extent={{-160,-12},{-140,8}})));
   Modelica.Blocks.Sources.RealExpression PrefDy1(y=50)
     annotation (Placement(transformation(extent={{12,-68},{32,-48}})));
@@ -143,11 +141,11 @@ model TwoParallelTurbineCaseDroopControl
     annotation (Placement(transformation(extent={{12,-82},{32,-62}})));
   Modelica.Blocks.Continuous.LimPID PI2(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=1,
-    Ti=10000,
+    k=0.277,
+    Ti=10,
     yMax=1,
     yMin=0.01,
-    Ni=0.1,
+    Ni=0.9,
     initType=Modelica.Blocks.Types.InitPID.SteadyState)
     annotation (Placement(transformation(extent={{56,-112},{76,-92}})));
   Modelica.Blocks.Sources.RealExpression PrefDy2(y=50)
@@ -206,9 +204,9 @@ equation
   connect(Gen.u, gain.y)
     annotation (Line(points={{82,42},{68,42},{68,8},{67,8}}, color={0,0,127}));
   connect(PrefDy1.y, PI1.u_s)
-    annotation (Line(points={{33,-58},{54,-58}}, color={0,0,127}));
+    annotation (Line(points={{33,-58},{52,-58}}, color={0,0,127}));
   connect(PI1.u_m, Pg1.y)
-    annotation (Line(points={{66,-70},{66,-72},{33,-72}}, color={0,0,127}));
+    annotation (Line(points={{64,-70},{64,-72},{33,-72}}, color={0,0,127}));
   connect(PrefDy2.y, PI2.u_s)
     annotation (Line(points={{33,-102},{54,-102}}, color={0,0,127}));
   connect(PI2.u_m, Pg2.y)
