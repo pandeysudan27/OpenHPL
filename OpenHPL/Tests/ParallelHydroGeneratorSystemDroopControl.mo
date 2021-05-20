@@ -46,7 +46,10 @@ model ParallelHydroGeneratorSystemDroopControl
   //  Placement(visible = true, transformation(extent = {{-40, -6}, {-20, 14}}, rotation = 0)));
   //OpenHPL.HydroPower.Aggregate aggregate annotation(
   //  Placement(visible = true, transformation(extent = {{-4, -6}, {16, 14}}, rotation = 0)));
-  ElectroMech.Turbines.Turbine turbine(C_v=3.7, ConstEfficiency=false) annotation (Placement(visible=true, transformation(
+  ElectroMech.Turbines.Turbine turbine(
+    ValveCapacity=false,               C_v=3.7,
+    H_n=370,
+    V_dot_n=40,                                 ConstEfficiency=false) annotation (Placement(visible=true, transformation(
         origin={26,-4},
         extent={{-10,-10},{10,10}},
         rotation=0)));
@@ -58,8 +61,8 @@ model ParallelHydroGeneratorSystemDroopControl
   ElectroMech.Generators.SimpleGen Gen(J=5e5)
     annotation (Placement(transformation(extent={{16,-44},{36,-24}})));
   Modelica.Blocks.Sources.Ramp load(
-    duration=10,
-    height=0.3*60e6,
+    duration=1,
+    height=0.4*60e6,
     offset=0.5*60e6,
     startTime=100) annotation (Placement(visible=true, transformation(
         origin={-12,-34},
@@ -69,8 +72,8 @@ model ParallelHydroGeneratorSystemDroopControl
     annotation (Placement(transformation(extent={{-54,38},{-34,58}})));
   Modelica.Blocks.Continuous.LimPID Controller(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=1,
-    Ti=10000,
+    k=0.277,
+    Ti=3,
     yMax=1,
     yMin=0.01,
     Ni=0.1,
@@ -108,7 +111,8 @@ equation
     annotation (Line(points={{16,-34},{-1,-34}}, color={0,0,127}));
   annotation (
     experiment(
-      StopTime=2000,
+      StartTime=-1000,
+      StopTime=200,
       __Dymola_NumberOfIntervals=10000,
       __Dymola_Algorithm="Dassl"));
 end ParallelHydroGeneratorSystemDroopControl;
