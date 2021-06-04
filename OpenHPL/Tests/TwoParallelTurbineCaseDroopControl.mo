@@ -15,20 +15,21 @@ model TwoParallelTurbineCaseDroopControl
     w_0=314) annotation (Placement(transformation(extent={{82,32},{102,52}})));
   Modelica.Blocks.Sources.Ramp puLoad(
     duration=2,
-    height=-0.4,
+    height=0.3,
     offset=0.5,
     startTime=100) annotation (Placement(visible=true, transformation(
         origin={26,8},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  Modelica.Blocks.Math.Gain gain(k=2*60e6) annotation (Placement(transformation(
+  Modelica.Blocks.Math.Gain gain(k=2*130e6)
+                                           annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={56,8})));
   Modelica.Blocks.Continuous.LimPID PI1(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=0.1,
-    Ti=10,
+    k=0.2,
+    Ti=5,
     yMax=1,
     yMin=0.01,
     initType=Modelica.Blocks.Types.InitPID.SteadyState)
@@ -73,7 +74,10 @@ model TwoParallelTurbineCaseDroopControl
         origin={-144,90},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  ElectroMech.Turbines.Turbine turbine1(C_v=4, ConstEfficiency=false)  annotation (Placement(visible=true, transformation(
+  ElectroMech.Turbines.Turbine turbine1(
+    ValveCapacity=false,                C_v=4,
+    H_n=370,
+    V_dot_n=40,                                ConstEfficiency=false)  annotation (Placement(visible=true, transformation(
         origin={-96,88},
         extent={{-10,-10},{10,10}},
         rotation=0)));
@@ -117,7 +121,10 @@ model TwoParallelTurbineCaseDroopControl
         origin={-144,26},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  ElectroMech.Turbines.Turbine turbine2(C_v=4, ConstEfficiency=false)  annotation (Placement(visible=true, transformation(
+  ElectroMech.Turbines.Turbine turbine2(
+    ValveCapacity=false,                C_v=4,
+    H_n=370,
+    V_dot_n=40,                                ConstEfficiency=false)  annotation (Placement(visible=true, transformation(
         origin={-96,26},
         extent={{-10,-10},{10,10}},
         rotation=0)));
@@ -131,9 +138,9 @@ model TwoParallelTurbineCaseDroopControl
     annotation (Placement(transformation(extent={{-106,52},{-86,72}})));
   ElectroMech.Generators.SimpleGen Gen2(J=6e5, k_b=0)
     annotation (Placement(transformation(extent={{-106,-12},{-86,8}})));
-  Modelica.Blocks.Sources.RealExpression DeltaP1(y=-65e6/0.04*(Gen.f - 50)/50)
+  Modelica.Blocks.Sources.RealExpression DeltaP1(y=-130e6/0.04*(Gen.f - 50)/50)
     annotation (Placement(transformation(extent={{-160,52},{-140,72}})));
-  Modelica.Blocks.Sources.RealExpression DeltaP2(y=-65e6/0.03*(Gen.f - 50)/50)
+  Modelica.Blocks.Sources.RealExpression DeltaP2(y=-130e6/0.05*(Gen.f - 50)/50)
     annotation (Placement(transformation(extent={{-160,-12},{-140,8}})));
   Modelica.Blocks.Sources.RealExpression PrefDy1(y=50)
     annotation (Placement(transformation(extent={{12,-68},{32,-48}})));
@@ -141,8 +148,8 @@ model TwoParallelTurbineCaseDroopControl
     annotation (Placement(transformation(extent={{12,-82},{32,-62}})));
   Modelica.Blocks.Continuous.LimPID PI2(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=0.277,
-    Ti=10,
+    k=0.2,
+    Ti=5,
     yMax=1,
     yMin=0.01,
     Ni=0.9,

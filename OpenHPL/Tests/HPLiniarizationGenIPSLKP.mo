@@ -129,21 +129,21 @@ equation
   connect(pwLine2.p, pwLine1.p) annotation (
     Line(points = {{10.6, -16}, {9.525, -16}, {9.525, -16}, {10.45, -16}, {10.45, -16}, {8.3, -16}, {8.3, -16}, {2, -16}, {2, -40}, {8.3, -40}, {8.3, -40}, {10.45, -40}, {10.45, -40}, {9.525, -40}, {9.525, -40}, {10.6, -40}}, color = {0, 0, 255}));
   connect(Normilizer.u, turbine.P_out) annotation (
-    Line(points = {{-17, 3}, {-28, 3}, {-28, 28}, {22, 28}, {22, 31}}, color = {0, 0, 127}));
+    Line(points={{-17.4,3},{-28,3},{-28,28},{26,28},{26,31}},          color = {0, 0, 127}));
   connect(RealizerAng.y, turbine.w_in) annotation (
-    Line(points = {{37, 28}, {30, 28}, {30, 32}}, color = {0, 0, 127}));
+    Line(points={{37.2,28},{14,28},{14,34}},      color = {0, 0, 127}));
   connect(surgeTank.p, intake.n) annotation (
-    Line(points = {{-45.9, 49.9}, {-46.95, 49.9}, {-46.95, 47.9}, {-48, 47.9}, {-48, 45.9}, {-55.9, 45.9}}, color = {28, 108, 200}));
+    Line(points={{-46,50},{-46.95,50},{-46.95,47.9},{-48,47.9},{-48,46},{-56,46}},                          color = {28, 108, 200}));
   connect(surgeTank.n, penstockKP.p) annotation (
-    Line(points = {{-26, 50}, {-14, 50}, {-14, 41.9}, {-13.9, 41.9}}, color = {28, 108, 200}));
+    Line(points={{-26,50},{-14,50},{-14,42},{-14,42}},                color = {28, 108, 200}));
   connect(reservoir.n, intake.p) annotation (
-    Line(points = {{-81.9, 45.9}, {-78, 45.9}, {-75.9, 45.9}}, color = {28, 108, 200}));
+    Line(points={{-82,46},{-78,46},{-76,46}},                  color = {28, 108, 200}));
   connect(tail.n, discharge.n) annotation (
     Line(points = {{82, 52}, {76, 52}, {76, 48}, {70, 48}}, color = {28, 108, 200}));
   connect(turbine.n, discharge.p) annotation (
     Line(points = {{36, 42}, {43, 42}, {43, 48}, {50, 48}}, color = {28, 108, 200}));
   connect(penstockKP.n, turbine.p) annotation (
-    Line(points = {{6.1, 41.9}, {16, 41.9}, {16, 42}}, color = {28, 108, 200}));
+    Line(points={{6,42},{16,42},{16,42}},              color = {28, 108, 200}));
   turbine.u_t = u;
   dotV = turbine.V_dot;
   P = order2_1.P;

@@ -75,11 +75,14 @@ model HPBjarneBorresen "Model of HP system with simplified models for penstock, 
     Placement(visible = true, transformation(origin = {44, 66}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(control.y, turbine.u_t) annotation (
-    Line(points = {{56, 66}, {62, 66}, {62, -16}, {62, -16}}, color = {0, 0, 127}));
+    Line(points={{55,66},{62,66},{62,-14},{62,-14}},          color = {0, 0, 127}));
   connect(tail.n, turbine.n) annotation (
-    Line(points = {{77.9, -20.1}, {76.4, -20.1}, {76.4, -20.1}, {74.9, -20.1}, {74.9, -20.1}, {71.9, -20.1}, {71.9, -26.1}, {71.9, -26.1}, {71.9, -26.1}, {71.9, -26.1}}, color = {28, 108, 200}));
+    Line(points={{78,-20},{76.4,-20},{76.4,-20.1},{74.9,-20.1},{74.9,-20.1},{
+          71.9,-20.1},{71.9,-26.1},{71.9,-26.1},{71.9,-26},{72,-26}},                                                                                                     color = {28, 108, 200}));
   connect(K92.n, turbine.p) annotation (
-    Line(points = {{45.9, -18.1}, {46.1375, -18.1}, {46.1375, -18.1}, {46.375, -18.1}, {46.375, -18.1}, {46.85, -18.1}, {46.85, -26.1}, {49.375, -26.1}, {49.375, -26.1}, {51.9, -26.1}}, color = {28, 108, 200}));
+    Line(points={{46,-18},{46.1375,-18},{46.1375,-18.1},{46.375,-18.1},{46.375,
+          -18.1},{46.85,-18.1},{46.85,-26.1},{49.375,-26.1},{49.375,-26},{52,
+          -26}},                                                                                                                                                                          color = {28, 108, 200}));
   connect(K10.n, K92.p) annotation (
     Line(points = {{46, 10}, {46, 2}}, color = {28, 108, 200}));
   connect(K91.n, K10.p) annotation (
@@ -93,7 +96,7 @@ equation
   connect(PN6.n, PN10.p) annotation (
     Line(points = {{-56, 60}, {-53, 60}, {-53, 54}, {-50, 54}}, color = {28, 108, 200}));
   connect(reservoir.n, PN6.p) annotation (
-    Line(points = {{-83.9, 63.9}, {-79.95, 63.9}, {-79.95, 59.9}, {-75.9, 59.9}}, color = {28, 108, 200}));
+    Line(points={{-84,64},{-79.95,64},{-79.95,60},{-76,60}},                      color = {28, 108, 200}));
   annotation (
     experiment(StopTime = 2000, StartTime = 0, Tolerance = 0.0001, Interval = 0.4));
 end HPBjarneBorresen;
