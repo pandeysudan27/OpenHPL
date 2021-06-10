@@ -1,8 +1,7 @@
 within OpenHPL.Controllers;
 model TurbineController "Droop controller model PI inside"
   extends OpenHPL.Icons.Governor;
-  outer Constants Const "using standard class with constants";
-  //// control parameters of the governor
+  //// control parameters of turbine controller
   parameter Integer ng = 2 "Number of Synchronous generators" annotation (
     Dialog(group = "Controller parameter"));
   parameter Modelica.SIunits.Frequency f_ref = 50 "Reference frequency of the system" annotation (
@@ -16,20 +15,22 @@ model TurbineController "Droop controller model PI inside"
   parameter Real Ti[ng] = fill(3,ng) "Ti values for PI controllers" annotation (
     Dialog(group = "Controller parameter"));
   parameter Real uMax=1,uMin=0.01;
-  output Real x[ng](each start=0) "ng initial states for PI controller";
+  Real x[ng](each start=0) "ng initial states for PI controller";
 
   Modelica.Blocks.Interfaces.RealInput f_grid
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-  Modelica.Blocks.Interfaces.RealVectorOutput uv[ng]
+  Modelica.Blocks.Interfaces.RealOutput uv[ng]
     "Vector outputs for turbine valve signal"
-    annotation (Placement(transformation(extent={{90,-20},{130,20}})));
+    annotation (Placement(transformation(extent={{100,-20},{140,20}})));
     Real err[ng],lim[ng];
 equation
   for i in 1:ng loop
-    err[i] = -(P_r[i]/1e6)/(D[i]/100)*((f_grid-f_ref)/(f_ref));//+P_sg[i];
-    //error[] = P_dy_ref[i]
+    // droop control
+    err[i] = -(P_r[i]/1e6)/(D[i]/100)*((f_grid-f_ref)/(f_ref));
+    // pi controller
     der(x[i]) = err[i]/Ti[i];
     lim[i] = Kp[i]*(x[i] + err[i]);
+    // limiter
     uv[i] = smooth(0,if lim[i] > uMax then uMax else if lim[i] < uMin then uMin else lim[i]);
   end for;
   annotation (
